@@ -1,6 +1,6 @@
 # Excline
 
-**TODO: Add description**
+Elixir command line example to pass and to print the given arguments
 
 ## Installation
 
