@@ -6,7 +6,7 @@ defmodule Excline do
   @doc """
   Command line example
   $ mix escript.build
-  $ ./example --msg=olala
+  $ ./excline --help
 
   ## Examples
 
@@ -17,16 +17,29 @@ defmodule Excline do
   end
 
   defp parse_args(args) do
-    {options, _, _} = OptionParser.parse(args,
-      switches: [msg: :string])
-    options
+    options = OptionParser.parse(args)
+    case options do
+      {[name: name], _, _} -> [name]
+      {[help: true], _, _} -> :help
+      _ -> :help
+    end
   end
 
-  defp process([]) do
-    IO.puts "No argumets given"
+  defp process([name]) do
+    IO.puts "Hello, my friend #{name}!"
   end
 
-  defp process(options) do
-    IO.puts "Message passed: #{options[:msg]}"
+  defp process(:help) do
+    IO.puts """
+      Usage:
+        ./excline --name [name]
+
+      Options:
+        --help Show this help message.
+
+      Description:
+        Prints out a greeting message if name provided.
+    """
+    System.halt(0)
   end
 end
